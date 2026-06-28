@@ -3,6 +3,9 @@
 
 #include<SDL3/SDL.h>
 
+#define MAX_OBJ 128
+#define MAX_ENT 64
+
 typedef struct {
     float sh_x;
     float sh_y;
@@ -29,5 +32,13 @@ typedef struct {
     float inp_frc;
     float inp_frc_max;
 } Player;
+
+typedef struct {
+    Object objects[MAX_OBJ];
+    int object_count;
+    Entity entities[MAX_ENT];
+    int entity_count;
+    Player player;
+} World;
 
 #endif
