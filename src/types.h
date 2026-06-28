@@ -12,36 +12,22 @@ typedef struct {
 typedef struct {
     SDL_FRect rect;
     Hitbox hitbox;
-    float old_x;
-    float old_y;
-    float vx;           // velocity X
-    float vy;           // velocity Y
-    float inp_f;        // input force
-    float inp_f_max;    // max input force
-    float mov_ax;       // move acceleration X
-    float ay;           // acceleration Y
-    float dmp;          // damping
-} Player;
+    SDL_Texture *texture;
+} Object;
 
 typedef struct {
     SDL_FRect rect;
     Hitbox hitbox;
-    float old_x;
-    float old_y;
-    float vx;
-    float vy;
-    float inp_f;
-    float inp_f_max;
-    float mov_ax;
-    float ay;
+    float vx, vy;
+    float ax, ay;
     float dmp;
+    bool isgnd;
 } Entity;
 
 typedef struct {
-    SDL_FRect rect;
-    Hitbox hitbox;
-    SDL_Texture *texture;
-    int type;
-} Object;
+    Entity entity;
+    float inp_frc;
+    float inp_frc_max;
+} Player;
 
 #endif

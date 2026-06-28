@@ -4,7 +4,8 @@
 #include<SDL3/SDL.h>
 #include"types.h"
 
-void render_player(SDL_Renderer *renderer, Player *player, bool hitbox);
+void handle_input(Player *player, float player_f);
+void upd_physics(Entity* entity, float inp_frc, Object *objects, int count, float dt);
 void render_entities(SDL_Renderer *renderer, Entity *entities, int count, bool hitbox);
 void render_objects(SDL_Renderer *renderer, Object *objects, int count, bool hitbox);
 

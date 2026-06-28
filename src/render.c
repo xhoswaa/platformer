@@ -1,22 +1,21 @@
 #include<SDL3/SDL.h>
-#include<stdint.h>
 #include"types.h"
 
-void render_player(SDL_Renderer *renderer, Player *player, bool hitbox)
-{
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &(*player).rect);
-    if (hitbox) {    
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-        SDL_FRect hitbox_rect = {
-            .x = (*player).hitbox.sh_x + (*player).rect.x,
-            .y = (*player).hitbox.sh_y + (*player).rect.y,
-            .w = (*player).hitbox.w,
-            .h = (*player).hitbox.h,
-        };
-        SDL_RenderRect(renderer, &hitbox_rect);
-    }
-}
+// void render_player(SDL_Renderer *renderer, Player *player, bool hitbox)
+// {
+//     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+//     SDL_RenderFillRect(renderer, &(*player).entity.rect);
+//     if (hitbox) {    
+//         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+//         SDL_FRect hitbox_rect = {
+//             .x = (*player).hitbox.sh_x + (*player).rect.x,
+//             .y = (*player).hitbox.sh_y + (*player).rect.y,
+//             .w = (*player).hitbox.w,
+//             .h = (*player).hitbox.h,
+//         };
+//         SDL_RenderRect(renderer, &hitbox_rect);
+//     }
+// }
 
 void render_entities(SDL_Renderer *renderer, Entity *entities, int count, bool hitbox)
 {
