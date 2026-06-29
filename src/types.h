@@ -21,6 +21,7 @@ typedef struct {
 typedef struct {
     SDL_FRect rect;
     Hitbox hitbox;
+    SDL_Texture *texture;
     float vx, vy;
     float ax, ay;
     float dmp;

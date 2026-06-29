@@ -1,46 +1,72 @@
 #include<SDL3/SDL.h>
 #include<SDL3/SDL_main.h>
+#include<SDL3_image/SDL_image.h>
 #include<stdint.h>
 #include"types.h"
 #include"common.h"
-
-#define PLAYER_FRC 2500.0f
-#define HITBOXES false
 
 int main(int argc, char* argv[])
 {
     SDL_Event event;
     if(!SDL_Init(SDL_INIT_VIDEO))
         return 1;
-    SDL_Window *window = SDL_CreateWindow("SDL3", 800, 600, 0);
+    SDL_Window *window = SDL_CreateWindow("platformer", 320, 180, WINDOW_FLAGS);
     if(!window) {SDL_Log("%s", SDL_GetError()); return 1;}
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, NULL);
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, "opengl");
     if(!renderer) {SDL_Log("%s", SDL_GetError()); return 1;}
+
+    SDL_SetRenderLogicalPresentation(
+        renderer,
+        LOGICAL_WIDTH,
+        LOGICAL_HEIGHT,
+        SDL_LOGICAL_PRESENTATION_LETTERBOX
+    );
     
     World world = {
         .object_count = 0,
         .entity_count = 0,
     };
-    game_init(&world);
+    game_init(renderer, &world);
 
+    bool window_resized = false;
+    bool fullscreen = false;
     Uint64 last_time = SDL_GetTicksNS();
 
     bool isrunning = true;
     while (isrunning) {
-
-        Uint64 cur_time = SDL_GetTicksNS();
-        float delta_time = (cur_time - last_time) / 1000000000.0f;
-        last_time = cur_time;
-
         while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_EVENT_WINDOW_RESIZED) {
+                SDL_SetRenderViewport(renderer, NULL);
+                SDL_SetRenderLogicalPresentation(
+                    renderer,
+                    LOGICAL_WIDTH,
+                    LOGICAL_HEIGHT,
+                    SDL_LOGICAL_PRESENTATION_INTEGER_SCALE
+                );
+                window_resized = true;
+            }
             if (event.type == SDL_EVENT_QUIT) {
                 isrunning = false;
                 SDL_DestroyRenderer(renderer);
                 SDL_DestroyWindow(window);
                 SDL_Quit();
             }
+            if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.scancode == SDL_SCANCODE_F11) {
+                    fullscreen = !fullscreen;
+                    SDL_SetWindowFullscreen(window, fullscreen);
+                }
+            }
         }
-        handle_input(&world.player, PLAYER_FRC);
+        handle_input(&world.player);
+
+        Uint64 cur_time = SDL_GetTicksNS();
+        float delta_time = (cur_time - last_time) / 1000000000.0f;
+        last_time = cur_time;
+        if (window_resized) {
+            window_resized = false;
+            delta_time = 0.0f;
+        }
 
         upd_physics(
             (Entity*)&world.player,

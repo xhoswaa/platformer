@@ -1,5 +1,6 @@
 #include<SDL3/SDL.h>
 #include"types.h"
+#include"common.h"
 
 void upd_physics(Entity* entity, float inp_frc, Object *objects, int count, float dt)
 {   

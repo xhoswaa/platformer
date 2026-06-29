@@ -1,22 +1,25 @@
 #include<SDL3/SDL.h>
+#include<SDL3_image/SDL_image.h>
 #include"types.h"
+#include"common.h"
 
-void game_init(World *world)
+void game_init(SDL_Renderer *renderer, World *world)
 {
     (*world).player = (Player){
         .entity = {
             .rect = {
-                .x = 300.0f,
-                .y = 300.0f,
+                .x = 0.0f,
+                .y = 0.0f,
                 .w = 32.0f,
                 .h = 32.0f,
             },
             .hitbox = {
-                .sh_x = 5.0f,
+                .sh_x = 10.0f,
                 .sh_y = 10.0f,
-                .w = 22.0f,
-                .h = 22.0f,
+                .w = 12.0f,
+                .h = 14.0f,
             },
+            .texture = IMG_LoadTexture(renderer, "assets/entities/player/player_idle.png"),
             .vx = 0,
             .vy = 0,
             .ax = 0,
@@ -29,9 +32,9 @@ void game_init(World *world)
     (*world).objects[(*world).object_count++] = (Object){
         .rect = {
             .x = 0,
-            .y = 500,
-            .w = 800,
-            .h = 100,
+            .y = 160,
+            .w = 320,
+            .h = 20,
         },
         .hitbox = {
             .sh_x = 0,
